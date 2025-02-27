@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +29,7 @@
                     <c:if test="${not empty error}">
                         <div class="alert alert-danger mt-3">${error}</div>
                     </c:if>
-                    <a href="register.jsp" class="">tạo tài khoản</a>
+                    <a href="register.jsp" class="d-block text-center mt-3">Tạo tài khoản</a>
                 </div>
             </div>
         </div>

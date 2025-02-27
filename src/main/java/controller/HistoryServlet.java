@@ -48,7 +48,7 @@ public class HistoryServlet extends HttpServlet {
             // Lấy danh sách tài khoản từ session
             List<Account> accounts = (List<Account>) session.getAttribute("accounts");
             if (accounts == null) {
-                response.sendRedirect("dashboard.jsp"); // Nếu không có danh sách, quay lại dashboard
+                response.sendRedirect("dashboard"); // Nếu không có danh sách, quay lại dashboard
                 return;
             }
 

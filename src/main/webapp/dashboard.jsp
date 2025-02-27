@@ -13,7 +13,7 @@
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h3 class="mb-0">Welcome, ${user.username}</h3>
-            <a href="logout.jsp" class="btn btn-outline-light btn-sm">Logout</a>
+            <a href="logout" class="btn btn-outline-light btn-sm">Logout</a>
         </div>
         <div class="card-body">
             <c:if test="${not empty error}">
@@ -23,7 +23,6 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="card-title text-muted mb-0">Your Accounts</h4>
                 <form action="createAccount" method="post" class="mb-0">
-                    <input type="hidden" name="userId" value="${user.userId}">
                     <button type="submit" class="btn btn-success">Create New Account</button>
                 </form>
             </div>

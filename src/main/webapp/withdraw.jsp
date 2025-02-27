@@ -25,7 +25,7 @@
                             <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Withdraw</button>
-                        <a href="dashboard.jsp" class="btn btn-secondary w-100 mt-3">Back to Dashboard</a>
+                        <a href="dashboard" class="btn btn-secondary w-100 mt-3">Back to Dashboard</a>
                     </form>
                 </div>
             </div>

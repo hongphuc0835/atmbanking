@@ -39,7 +39,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <a href="dashboard.jsp" class="btn btn-secondary w-100 mt-3">Back to Dashboard</a>
+            <a href="dashboard" class="btn btn-secondary w-100 mt-3">Back to Dashboard</a>
         </div>
     </div>
 </div>

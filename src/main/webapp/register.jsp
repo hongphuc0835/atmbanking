@@ -35,6 +35,7 @@
                         </div>
                         <button type="submit" class="btn btn-success w-100">Đăng ký</button>
                     </form>
+                    <a href="login.jsp" class="d-block text-center mt-3">đăng nhập</a>
                 </div>
             </div>
         </div>

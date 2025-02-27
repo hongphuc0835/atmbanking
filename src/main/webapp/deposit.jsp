@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Deposit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="bg-light">
 <div class="container mt-5">
@@ -22,7 +23,7 @@
                     <input type="number" step="0.01" class="form-control" id="amount" name="amount" required>
                 </div>
                 <button type="submit" class="btn btn-success">Deposit</button>
-                <a href="dashboard.jsp" class="btn btn-secondary">Back to Dashboard</a>
+                <a href="dashboard" class="btn btn-secondary">Back to Dashboard</a>
             </form>
         </div>
     </div>
