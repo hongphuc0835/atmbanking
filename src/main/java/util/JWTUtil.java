@@ -59,4 +59,25 @@ public class JWTUtil {
         Claims claims = decodeToken(token);
         return claims.getSubject();
     }
+
+//    // Hàm main để kiểm tra token
+//    public static void main(String[] args) {
+//        String username = "testUser"; // Thay bằng username bạn muốn kiểm tra
+//
+//        // Tạo Access Token
+//        String accessToken = generateAccessToken(username);
+//        System.out.println("Access Token: " + accessToken);
+//
+//        // Tạo Refresh Token
+//        String refreshToken = generateRefreshToken(username);
+//        System.out.println("Refresh Token: " + refreshToken);
+//
+//        // Kiểm tra giải mã token
+//        String decodedUsername = getUsernameFromToken(accessToken);
+//        System.out.println("Decoded Username from Access Token: " + decodedUsername);
+//
+//        // Kiểm tra token hợp lệ
+//        boolean isAccessTokenValid = validateToken(accessToken);
+//        System.out.println("Is Access Token Valid? " + isAccessTokenValid);
+//    }
 }
