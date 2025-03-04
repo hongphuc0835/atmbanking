@@ -1,27 +1,28 @@
 package util;
 
-
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class JWTUtil {
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // Chuỗi bí mật cố định (ít nhất 32 ký tự để đủ 256 bit cho HS256)
+    private static final String SECRET_STRING = "mySuperSecretKey12345678901234567890";
+    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
     private static final long ACCESS_TOKEN_EXPIRY = 15 * 60 * 1000; // 15 phút
     private static final long REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7 ngày
 
     // Tạo Access Token
     public static String generateAccessToken(String username) {
         return Jwts.builder()
-                .setSubject(username) // Lưu thông tin người dùng
-                .setIssuedAt(new Date()) // Thời điểm phát hành
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRY)) // Hết hạn sau 15 phút
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256) // Ký bằng SECRET_KEY
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRY))
+                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -30,7 +31,7 @@ public class JWTUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRY)) // Hết hạn sau 7 ngày
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRY))
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -48,9 +49,9 @@ public class JWTUtil {
     public static boolean validateToken(String token) {
         try {
             decodeToken(token);
-            return true; // Token hợp lệ
+            return true;
         } catch (Exception e) {
-            return false; // Token không hợp lệ (hết hạn, chữ ký sai, v.v.)
+            return false;
         }
     }
 
@@ -59,25 +60,4 @@ public class JWTUtil {
         Claims claims = decodeToken(token);
         return claims.getSubject();
     }
-
-//    // Hàm main để kiểm tra token
-//    public static void main(String[] args) {
-//        String username = "testUser"; // Thay bằng username bạn muốn kiểm tra
-//
-//        // Tạo Access Token
-//        String accessToken = generateAccessToken(username);
-//        System.out.println("Access Token: " + accessToken);
-//
-//        // Tạo Refresh Token
-//        String refreshToken = generateRefreshToken(username);
-//        System.out.println("Refresh Token: " + refreshToken);
-//
-//        // Kiểm tra giải mã token
-//        String decodedUsername = getUsernameFromToken(accessToken);
-//        System.out.println("Decoded Username from Access Token: " + decodedUsername);
-//
-//        // Kiểm tra token hợp lệ
-//        boolean isAccessTokenValid = validateToken(accessToken);
-//        System.out.println("Is Access Token Valid? " + isAccessTokenValid);
-//    }
 }

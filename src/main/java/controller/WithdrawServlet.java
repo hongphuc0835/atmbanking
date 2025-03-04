@@ -26,17 +26,12 @@ public class WithdrawServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accessToken = AuthUtil.getCookieValue(request, "accessToken");
-        if (accessToken == null || !JWTUtil.validateToken(accessToken)) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
         String username = JWTUtil.getUsernameFromToken(accessToken);
         int userId;
         try {
             userId = AuthUtil.getUserIdFromUsername(username);
         } catch (SQLException | ClassNotFoundException e) {
-            request.setAttribute("error", "Failed to authenticate user: " + e.getMessage());
+            request.setAttribute("error", "Không thể xác thực người dùng: " + e.getMessage());
             request.getRequestDispatcher("withdraw.jsp").forward(request, response);
             return;
         }
@@ -47,12 +42,12 @@ public class WithdrawServlet extends HttpServlet {
         try {
             amount = Double.parseDouble(request.getParameter("amount"));
             if (amount <= 0) {
-                request.setAttribute("error", "Amount must be greater than 0");
+                request.setAttribute("error", "Số tiền phải lớn hơn 0");
                 request.getRequestDispatcher("withdraw.jsp").forward(request, response);
                 return;
             }
         } catch (NumberFormatException e) {
-            request.setAttribute("error", "Invalid amount format");
+            request.setAttribute("error", "Định dạng số tiền không hợp lệ");
             request.getRequestDispatcher("withdraw.jsp").forward(request, response);
             return;
         }
@@ -65,13 +60,13 @@ public class WithdrawServlet extends HttpServlet {
                     .orElse(null);
 
             if (account == null) {
-                request.setAttribute("error", "Account not found or not owned by you");
+                request.setAttribute("error", "Tài khoản không tồn tại hoặc không thuộc về bạn");
                 request.getRequestDispatcher("withdraw.jsp").forward(request, response);
                 return;
             }
 
             if (!accountModel.canWithdraw(account, amount)) {
-                request.setAttribute("error", "Invalid amount or insufficient balance");
+                request.setAttribute("error", "Số tiền không hợp lệ hoặc số dư không đủ");
                 request.getRequestDispatcher("withdraw.jsp").forward(request, response);
                 return;
             }
@@ -79,7 +74,7 @@ public class WithdrawServlet extends HttpServlet {
             accountModel.withdraw(account, amount);
             response.sendRedirect("dashboard");
         } catch (ClassNotFoundException | SQLException e) {
-            request.setAttribute("error", "An error occurred during withdrawal: " + e.getMessage());
+            request.setAttribute("error", "Đã xảy ra lỗi trong quá trình rút tiền: " + e.getMessage());
             request.getRequestDispatcher("withdraw.jsp").forward(request, response);
         }
     }

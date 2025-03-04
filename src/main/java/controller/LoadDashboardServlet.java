@@ -27,17 +27,12 @@ public class LoadDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accessToken = AuthUtil.getCookieValue(request, "accessToken");
-        if (accessToken == null || !JWTUtil.validateToken(accessToken)) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
         String username = JWTUtil.getUsernameFromToken(accessToken);
         int userId;
         try {
             userId = AuthUtil.getUserIdFromUsername(username);
         } catch (SQLException | ClassNotFoundException e) {
-            request.setAttribute("error", "Failed to authenticate user: " + e.getMessage());
+            request.setAttribute("error", "Không thể xác thực người dùng: " + e.getMessage());
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
             return;
         }
@@ -51,7 +46,7 @@ public class LoadDashboardServlet extends HttpServlet {
             request.setAttribute("user", user);
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         } catch (SQLException | ClassNotFoundException e) {
-            request.setAttribute("error", "Failed to load accounts: " + e.getMessage());
+            request.setAttribute("error", "Không thể tải danh sách tài khoản: " + e.getMessage());
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         }
     }

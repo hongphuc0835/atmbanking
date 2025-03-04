@@ -30,10 +30,6 @@ public class HistoryServlet extends HttpServlet {
             throws ServletException, IOException {
         // Lấy Access Token từ cookie
         String accessToken = AuthUtil.getCookieValue(request, "accessToken");
-        if (accessToken == null || !JWTUtil.validateToken(accessToken)) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
 
         // Lấy username từ token
         String username = JWTUtil.getUsernameFromToken(accessToken);
@@ -41,7 +37,7 @@ public class HistoryServlet extends HttpServlet {
         try {
             userId = AuthUtil.getUserIdFromUsername(username);
         } catch (SQLException | ClassNotFoundException e) {
-            request.setAttribute("error", "Failed to authenticate user: " + e.getMessage());
+            request.setAttribute("error", "Không thể xác thực người dùng: " + e.getMessage());
             request.getRequestDispatcher("history.jsp").forward(request, response);
             return;
         }
@@ -50,7 +46,7 @@ public class HistoryServlet extends HttpServlet {
 
         // Kiểm tra accountNumber có được gửi không
         if (accountNumber == null || accountNumber.trim().isEmpty()) {
-            request.setAttribute("error", "No account specified");
+            request.setAttribute("error", "Không có tài khoản nào được chỉ định");
             request.getRequestDispatcher("history.jsp").forward(request, response);
             return;
         }
@@ -66,7 +62,7 @@ public class HistoryServlet extends HttpServlet {
                     .orElse(null);
 
             if (account == null) {
-                request.setAttribute("error", "Account not found or not owned by you");
+                request.setAttribute("error", "Tài khoản không tồn tại hoặc không thuộc về bạn");
                 request.getRequestDispatcher("history.jsp").forward(request, response);
                 return;
             }
@@ -78,7 +74,7 @@ public class HistoryServlet extends HttpServlet {
             request.getRequestDispatcher("history.jsp").forward(request, response);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            request.setAttribute("error", "An error occurred while retrieving transaction history: " + e.getMessage());
+            request.setAttribute("error", "Đã xảy ra lỗi khi lấy lịch sử giao dịch: " + e.getMessage());
             request.getRequestDispatcher("history.jsp").forward(request, response);
         }
     }

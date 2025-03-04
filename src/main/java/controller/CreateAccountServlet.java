@@ -29,12 +29,8 @@ public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // AuthFilter đã kiểm tra token, chỉ cần lấy thông tin user từ token
         String accessToken = AuthUtil.getCookieValue(request, "accessToken");
-        if (accessToken == null || !JWTUtil.validateToken(accessToken)) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
         String username = JWTUtil.getUsernameFromToken(accessToken);
         int userId;
         try {
